@@ -1612,6 +1612,27 @@ class PostgresAdapterTest extends TestCase
         $this->assertTrue($this->adapter->hasForeignKey($table->getName(), ['ref_table_id']));
     }
 
+    public function testAddForeignKeyDeferrable()
+    {
+        $refTable = new Table('ref_table', [], $this->adapter);
+        $refTable->addColumn('field1', 'string')->save();
+
+        $table = new Table('table', [], $this->adapter);
+        $table
+            ->addColumn('ref_table_id', 'integer')
+            ->addForeignKey(
+                ['ref_table_id'],
+                'ref_table',
+                ['id'],
+                [
+                    'deferrable' => 'DEFERRED',
+                ]
+            )
+            ->save();
+
+        $this->assertTrue($this->adapter->hasForeignKey($table->getName(), ['ref_table_id']));
+    }
+
     public function testAddForeignKeyWithSchema()
     {
         $this->adapter->createSchema('schema1');

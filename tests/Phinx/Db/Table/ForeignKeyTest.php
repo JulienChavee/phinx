@@ -67,6 +67,30 @@ class ForeignKeyTest extends TestCase
         $this->assertEquals($valueOfConstant, $this->fk->getOnUpdate());
     }
 
+    /**
+     * @param string $dirtyValue
+     * @param string $valueOfConstant
+     * @dataProvider deferrableProvider
+     */
+    public function testDeferrableCanBeSetThroughSetters($dirtyValue, $valueOfConstant)
+    {
+        $this->fk->setDeferrableMode($dirtyValue);
+        $this->assertEquals($valueOfConstant, $this->fk->getDeferrableMode());
+    }
+
+    /**
+     * @param string $dirtyValue
+     * @param string $valueOfConstant
+     * @dataProvider deferrableProvider
+     */
+    public function testDeferrableCanBeSetThroughOptions($dirtyValue, $valueOfConstant)
+    {
+        $this->fk->setOptions([
+            'deferrable' => $dirtyValue,
+        ]);
+        $this->assertEquals($valueOfConstant, $this->fk->getDeferrableMode());
+    }
+
     public function testUnknownActionsNotAllowedThroughSetter()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -92,6 +116,18 @@ class ForeignKeyTest extends TestCase
             ['Set nuLL', ForeignKey::SET_NULL],
             ['no_Action', ForeignKey::NO_ACTION],
             ['Set_nuLL', ForeignKey::SET_NULL],
+        ];
+    }
+
+    public function deferrableProvider(): array
+    {
+        return [
+            ['DEFERRED', ForeignKey::DEFERRED],
+            ['IMMEDIATE', ForeignKey::IMMEDIATE],
+            ['NOT_DEFERRED', ForeignKey::NOT_DEFERRED],
+            ['Deferred', ForeignKey::DEFERRED],
+            ['Immediate', ForeignKey::IMMEDIATE],
+            ['Not_deferred', ForeignKey::NOT_DEFERRED],
         ];
     }
 

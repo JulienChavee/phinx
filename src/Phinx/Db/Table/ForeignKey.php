@@ -18,8 +18,8 @@ class ForeignKey
     public const SET_NULL = 'SET NULL';
     public const NO_ACTION = 'NO ACTION';
     public const DEFERRED = 'DEFERRABLE INITIALLY DEFERRED';
-    public const IMMEDIATE  = 'DEFERRABLE INITIALLY IMMEDIATE';
-    public const NOT_DEFERRED  = 'NOT DEFERRABLE';
+    public const IMMEDIATE = 'DEFERRABLE INITIALLY IMMEDIATE';
+    public const NOT_DEFERRED = 'NOT DEFERRABLE';
 
     /**
      * @var array<string>
@@ -205,7 +205,7 @@ class ForeignKey
      * @param string $deferrableMode Constraint
      * @return $this
      */
-    public function setDeferrableMode(string $deferrableMode): self
+    public function setDeferrableMode(string $deferrableMode)
     {
         $this->deferrableMode = $this->normalizeDeferrable($deferrableMode);
 

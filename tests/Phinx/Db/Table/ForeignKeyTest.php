@@ -72,7 +72,7 @@ class ForeignKeyTest extends TestCase
      * @param string $valueOfConstant
      * @dataProvider deferrableProvider
      */
-    public function testDeferrableCanBeSetThroughSetters($dirtyValue, $valueOfConstant)
+    public function testDeferrableCanBeSetThroughSetters(string $dirtyValue, string $valueOfConstant): void
     {
         $this->fk->setDeferrableMode($dirtyValue);
         $this->assertEquals($valueOfConstant, $this->fk->getDeferrableMode());
@@ -83,12 +83,18 @@ class ForeignKeyTest extends TestCase
      * @param string $valueOfConstant
      * @dataProvider deferrableProvider
      */
-    public function testDeferrableCanBeSetThroughOptions($dirtyValue, $valueOfConstant)
+    public function testDeferrableCanBeSetThroughOptions(string $dirtyValue, string $valueOfConstant): void
     {
         $this->fk->setOptions([
             'deferrable' => $dirtyValue,
         ]);
         $this->assertEquals($valueOfConstant, $this->fk->getDeferrableMode());
+    }
+
+    public function testThrowsErrorForInvalidDeferrableValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->fk->setDeferrable('invalid_value');
     }
 
     public function testUnknownActionsNotAllowedThroughSetter()

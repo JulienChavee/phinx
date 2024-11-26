@@ -94,7 +94,7 @@ class ForeignKeyTest extends TestCase
     public function testThrowsErrorForInvalidDeferrableValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->fk->setDeferrable('invalid_value');
+        $this->fk->setDeferrableMode('invalid_value');
     }
 
     public function testUnknownActionsNotAllowedThroughSetter()

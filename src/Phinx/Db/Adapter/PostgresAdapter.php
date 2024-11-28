@@ -960,14 +960,17 @@ class PostgresAdapter extends PdoAdapter
      * @param string $tableName Table name
      * @return array
      */
-    protected function getForeignKeys(string $tableName): array
+    public function getForeignKeys(string $tableName): array
     {
         $parts = $this->getSchemaName($tableName);
         $foreignKeys = [];
         $rows = $this->fetchAll(sprintf(
             "SELECT
                     tc.constraint_name,
-                    tc.table_name, kcu.column_name,
+                    tc.table_name,
+                    tc.is_deferrable,
+                    tc.initially_deferred,
+                    kcu.column_name,
                     ccu.table_name AS referenced_table_name,
                     ccu.column_name AS referenced_column_name
                 FROM
@@ -981,6 +984,8 @@ class PostgresAdapter extends PdoAdapter
         ));
         foreach ($rows as $row) {
             $foreignKeys[$row['constraint_name']]['table'] = $row['table_name'];
+            $foreignKeys[$row['constraint_name']]['is_deferrable'] = $row['is_deferrable'] === 'YES';
+            $foreignKeys[$row['constraint_name']]['initially_deferred'] = $row['initially_deferred'] === 'YES';
             $foreignKeys[$row['constraint_name']]['columns'][] = $row['column_name'];
             $foreignKeys[$row['constraint_name']]['referenced_table'] = $row['referenced_table_name'];
             $foreignKeys[$row['constraint_name']]['referenced_columns'][] = $row['referenced_column_name'];

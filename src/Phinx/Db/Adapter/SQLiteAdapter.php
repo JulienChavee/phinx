@@ -1558,12 +1558,9 @@ PCRE_PATTERN;
     }
 
     /**
-     * Get an array of foreign keys from a particular table.
-     *
-     * @param string $tableName Table name
-     * @return array
+     * @inheritDoc
      */
-    protected function getForeignKeys(string $tableName): array
+    public function getForeignKeys(string $tableName): array
     {
         $foreignKeys = [];
 

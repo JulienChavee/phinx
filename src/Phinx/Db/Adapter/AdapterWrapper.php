@@ -405,6 +405,14 @@ abstract class AdapterWrapper implements AdapterInterface, WrapperInterface
     /**
      * @inheritDoc
      */
+    public function getForeignKeys(string $tableName): array
+    {
+        return $this->getAdapter()->getForeignKeys($tableName);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getSqlType(Literal|string $type, ?int $limit = null): array
     {
         return $this->getAdapter()->getSqlType($type, $limit);

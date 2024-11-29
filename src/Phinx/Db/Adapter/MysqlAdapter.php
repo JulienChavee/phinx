@@ -849,9 +849,12 @@ class MysqlAdapter extends PdoAdapter
     }
 
     /**
-     * @inheritDoc
+     * Get an array of foreign keys from a particular table.
+     *
+     * @param string $tableName Table name
+     * @return array
      */
-    public function getForeignKeys(string $tableName): array
+    protected function getForeignKeys(string $tableName): array
     {
         if (strpos($tableName, '.') !== false) {
             [$schema, $tableName] = explode('.', $tableName);

@@ -462,14 +462,6 @@ interface AdapterInterface
     public function hasForeignKey(string $tableName, string|array $columns, ?string $constraint = null): bool;
 
     /**
-     * Get an array of foreign keys from a particular table.
-     *
-     * @param string $tableName Table name
-     * @return array
-     */
-    public function getForeignKeys(string $tableName): array;
-
-    /**
      * Returns an array of the supported Phinx column types.
      *
      * @return string[]

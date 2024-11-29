@@ -321,16 +321,6 @@ class TablePrefixAdapter extends AdapterWrapper implements DirectActionInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getForeignKeys(string $tableName): array
-    {
-        $adapterTableName = $this->getAdapterTableName($tableName);
-
-        return parent::getForeignKeys($adapterTableName);
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @throws \BadMethodCallException

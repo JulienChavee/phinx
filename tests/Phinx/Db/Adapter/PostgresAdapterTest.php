@@ -1620,8 +1620,7 @@ class PostgresAdapterTest extends TestCase
         $table = new Table('table', [], $this->adapter);
         $table
             ->addColumn('ref_table_id', 'integer')
-            ->addForeignKeyWithName(
-                'my_constraint',
+            ->addForeignKey(
                 ['ref_table_id'],
                 'ref_table',
                 ['id'],
@@ -1631,69 +1630,7 @@ class PostgresAdapterTest extends TestCase
             )
             ->save();
 
-        $this->assertTrue($this->adapter->hasForeignKey($table->getName(), ['ref_table_id'], 'my_constraint'));
-
-        $foreignKeys = $this->adapter->getForeignKeys($table->getName());
-
-        $this->assertTrue(isset($foreignKeys['my_constraint']));
-        $this->assertTrue($foreignKeys['my_constraint']['is_deferrable']);
-        $this->assertTrue($foreignKeys['my_constraint']['initially_deferred']);
-    }
-
-    public function testAddForeignKeyNotDeferrable()
-    {
-        $refTable = new Table('ref_table', [], $this->adapter);
-        $refTable->addColumn('field1', 'string')->save();
-
-        $table = new Table('table', [], $this->adapter);
-        $table
-            ->addColumn('ref_table_id', 'integer')
-            ->addForeignKeyWithName(
-                'my_constraint',
-                ['ref_table_id'],
-                'ref_table',
-                ['id'],
-                [
-                    'deferrable' => 'IMMEDIATE',
-                ]
-            )
-            ->save();
-
-        $this->assertTrue($this->adapter->hasForeignKey($table->getName(), ['ref_table_id'], 'my_constraint'));
-
-        $foreignKeys = $this->adapter->getForeignKeys($table->getName());
-
-        $this->assertTrue(isset($foreignKeys['my_constraint']));
-        $this->assertTrue($foreignKeys['my_constraint']['is_deferrable']);
-        $this->assertFalse($foreignKeys['my_constraint']['initially_deferred']);
-    }
-
-    public function testAddForeignKeyImmediate()
-    {
-        $refTable = new Table('ref_table', [], $this->adapter);
-        $refTable->addColumn('field1', 'string')->save();
-
-        $table = new Table('table', [], $this->adapter);
-        $table
-            ->addColumn('ref_table_id', 'integer')
-            ->addForeignKeyWithName(
-                'my_constraint',
-                ['ref_table_id'],
-                'ref_table',
-                ['id'],
-                [
-                    'deferrable' => 'NOT_DEFERRED',
-                ]
-            )
-            ->save();
-
-        $this->assertTrue($this->adapter->hasForeignKey($table->getName(), ['ref_table_id'], 'my_constraint'));
-
-        $foreignKeys = $this->adapter->getForeignKeys($table->getName());
-
-        $this->assertTrue(isset($foreignKeys['my_constraint']));
-        $this->assertFalse($foreignKeys['my_constraint']['is_deferrable']);
-        $this->assertFalse($foreignKeys['my_constraint']['initially_deferred']);
+        $this->assertTrue($this->adapter->hasForeignKey($table->getName(), ['ref_table_id']));
     }
 
     public function testAddForeignKeyWithSchema()

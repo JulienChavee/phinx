@@ -957,9 +957,12 @@ ORDER BY T.[name], I.[index_id];";
     }
 
     /**
-     * @inheritDoc
+     * Get an array of foreign keys from a particular table.
+     *
+     * @param string $tableName Table name
+     * @return array
      */
-    public function getForeignKeys(string $tableName): array
+    protected function getForeignKeys(string $tableName): array
     {
         $foreignKeys = [];
         $rows = $this->fetchAll(sprintf(

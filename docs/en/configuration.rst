@@ -76,6 +76,16 @@ You can also provide multiple migration paths by using an array in your configur
             - application/module1/migrations
             - application/module2/migrations
 
+Class namespaces may be specified by adding a key to each migration path:
+
+.. code-block:: yaml
+
+    paths:
+        migrations:
+            App\Module1\Migrations: application/module1/migrations
+            App\Module2\Migrations: application/module2/migrations
+
+
 
 You can also use the ``%%PHINX_CONFIG_DIR%%`` token in your path.
 
@@ -138,6 +148,16 @@ You can also use the ``%%PHINX_CONFIG_DIR%%`` token in your path.
 
     paths:
         seeds: '%%PHINX_CONFIG_DIR%%/your/relative/path'
+
+Class namespaces may be specified by adding a key to each seed path:
+
+.. code-block:: yaml
+
+    paths:
+        seeds:
+            App\Module1\Seeds: application/module1/seeds
+            App\Module2\Seeds: application/module2/seeds
+
 
 Custom Seeder Base
 ---------------------

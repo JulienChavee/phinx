@@ -892,6 +892,7 @@ Option     Description
 update     set an action to be triggered when the row is updated
 delete     set an action to be triggered when the row is deleted
 constraint set a name to be used by foreign key constraint
+deferrable set the foreign key constraint to be deferrable *(only applies to PostgreSQL)*
 ========== ===========
 
 You can pass one or more of these options to any column with the optional
@@ -1192,7 +1193,7 @@ where its value is the name of the column to position it after.
             }
         }
 
-This would create the new column ``city`` and position it after the ``email`` column. The 
+This would create the new column ``city`` and position it after the ``email`` column. The
 ``\Phinx\Db\Adapter\MysqlAdapter::FIRST`` constant can be used to specify that the new column should be
 created as the first column in that table.
 
@@ -1575,6 +1576,31 @@ We can add named foreign keys using the ``constraint`` parameter. This feature i
             public function down()
             {
 
+            }
+        }
+
+For PostgreSQL, you can set if the foreign key is deferrable. The available options are ``DEFERRED`` (corresponds to
+``DEFERRABLE INITIALLY DEFERRED``), ``IMMEDIATE`` (corresponds to ``DEFERRABLE INITIALLY IMMEDIATE``), and ``NOT_DEFERRED``
+(corresponds to ``NOT DEFERRABLE``).
+
+.. code-block:: php
+
+        <?php
+
+        use Phinx\Migration\AbstractMigration;
+
+        class MyNewMigration extends AbstractMigration
+        {
+            public function change()
+            {
+                $table = $this->table('phones');
+                $table->addColumn('name', 'string')
+                      ->addColumn('manufacturer_name', 'string')
+                      ->addForeignKey('manufacturer_name',
+                                      'manufacturers ',
+                                      'name',
+                                      ['deferrable' => 'DEFERRED'])
+                      ->save();
             }
         }
 

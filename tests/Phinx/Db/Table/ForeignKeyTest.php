@@ -134,6 +134,9 @@ class ForeignKeyTest extends TestCase
             ['Deferred', ForeignKey::DEFERRED],
             ['Immediate', ForeignKey::IMMEDIATE],
             ['Not_deferred', ForeignKey::NOT_DEFERRED],
+            [ForeignKey::DEFERRED, ForeignKey::DEFERRED],
+            [ForeignKey::IMMEDIATE, ForeignKey::IMMEDIATE],
+            [ForeignKey::NOT_DEFERRED, ForeignKey::NOT_DEFERRED],
         ];
     }
 

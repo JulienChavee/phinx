@@ -276,11 +276,19 @@ class ForeignKey
      */
     protected function normalizeDeferrable(string $deferrable): string
     {
-        $constantName = 'static::' . strtoupper(trim($deferrable));
-        if (!defined($constantName)) {
-            throw new InvalidArgumentException('Unknown action passed: ' . $deferrable);
+        $mapping = [
+            'DEFERRED' => ForeignKey::DEFERRED,
+            'IMMEDIATE' => ForeignKey::IMMEDIATE,
+            'NOT DEFERRED' => ForeignKey::NOT_DEFERRED,
+            ForeignKey::DEFERRED => ForeignKey::DEFERRED,
+            ForeignKey::IMMEDIATE => ForeignKey::IMMEDIATE,
+            ForeignKey::NOT_DEFERRED => ForeignKey::NOT_DEFERRED,
+        ];
+        $normalized = strtoupper(str_replace('_', ' ', $deferrable));
+        if (array_key_exists($normalized, $mapping)) {
+            return $mapping[$normalized];
         }
 
-        return constant($constantName);
+        throw new InvalidArgumentException('Unknown deferrable passed: ' . $deferrable);
     }
 }

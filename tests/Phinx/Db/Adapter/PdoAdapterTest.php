@@ -7,10 +7,10 @@ use PDO;
 use PDOException;
 use Phinx\Config\Config;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use RuntimeException;
 use Test\Phinx\DeprecationException;
 use Test\Phinx\TestUtils;
-use ReflectionMethod;
 
 class PdoAdapterTest extends TestCase
 {
